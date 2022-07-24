@@ -220,7 +220,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
             _candyArray[(int)item.transform.position.x, (int)item.transform.position.y] = null;
             //スコア加算してくれる関数呼び出す
             _score += 100;
-            Debug.Log("揃った");
         }
         //Listを空っぽに。
         _deleteList.Clear();
