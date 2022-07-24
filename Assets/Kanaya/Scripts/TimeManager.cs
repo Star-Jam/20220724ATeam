@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class TimeManager : SingletonMonoBehaviour<TimeManager>
 {
-    public float TimeLimit => _timeLimit; 
+    public float TimeLimit => _timeLimit;
 
+    bool Music = false;
     [SerializeField]
     [Header("êßå¿éûä‘")]
     float _timeLimit; 
@@ -18,11 +19,22 @@ public class TimeManager : SingletonMonoBehaviour<TimeManager>
         if (_timeLimit <= 0)
         {
             _timeLimit = 0;
+            UIManager.Instance.ResultScore(ScoreManager.Instance.Score);
             //ÉäÉUÉãÉgâÊñ ÇäJÇ≠
+            UIManager.Instance.ResultSetActive(true);
+
+            if(Music == false)
+            {
+                Music = true;
+                SoundManager.Instance.PlayResultMusic();
+            }
+            
         }
         else
         {
             _timeLimit -= Time.deltaTime;
         }
+
+        UIManager.Instance.Timer(_timeLimit);
     }
 }

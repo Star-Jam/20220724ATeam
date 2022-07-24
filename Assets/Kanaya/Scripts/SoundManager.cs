@@ -8,10 +8,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     [Header("タイトルシーンの音源")] AudioSource _titleAudioSource;
 
     [SerializeField]
-    [Header("ゲームシーンの音源")] AudioSource _gameAudioSource;
+    [Header("ゲームシーンの音源")] AudioClip _gameAudioSource;
 
     [SerializeField]
-    [Header("リザルトシーンの音源")] AudioSource _resultAudioSource;
+    [Header("リザルトシーンの音源")] AudioClip _resultAudioSource;
 
     [SerializeField]
     [Header("クリック音")] AudioClip _clickSe;
@@ -22,8 +22,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         if(Input.GetMouseButtonDown(0))//左クリック時
         {
             ClickSe();
-        }
-        
+        }       
     }
     public void PlayTitleMusic()//タイトル画面時のBGM
     {
@@ -36,16 +35,20 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     }
     public void PlayGameMusic()//ゲーム画時のBGM
     {
-        _gameAudioSource.Play();
-        _gameAudioSource = GetComponent<AudioSource>();
+        _titleAudioSource.PlayOneShot(_gameAudioSource);
     }
     public void PlayResultMusic()//リザルト画面時のBGM
     {
-        _resultAudioSource.Play();
-        _resultAudioSource = GetComponent<AudioSource>();
+        _titleAudioSource.Stop();
+        _titleAudioSource.clip = _resultAudioSource;
+        _titleAudioSource.PlayOneShot(_resultAudioSource);        
     }
     public void AlignSe()//揃った時のSE
     {
-        _gameAudioSource.PlayOneShot(_alignSe);
+        _titleAudioSource.PlayOneShot(_alignSe);
+    }
+    public void PauseMusic()
+    {
+        
     }
 }

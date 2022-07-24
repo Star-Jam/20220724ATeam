@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : SingletonMonoBehaviour<UIManager>
 {
     [SerializeField]
-    [Tooltip("リザルト")] GameObject _result;
+    [Tooltip("リザルト")] GameObject _resultPanel;
     [SerializeField]
     [Tooltip("ポーズ")] GameObject _pause;
     [SerializeField]
@@ -17,49 +17,32 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     [Tooltip("スコア")] Text _score;
     [SerializeField]
     [Tooltip("リザルトスコア")] Text _resultscore;
-    // Start is called before the first frame update
+
     void Start()
     {
-       
+        _score.text = "0";
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Pause(bool active)
     {
-        
+        _pause.SetActive(active);
     }
-    public void taitoru()
-    {
-        SceneManager.LoadScene("");
-    }
-    public void gameseen()
-    {
-        SceneManager.LoadScene("");
-    }
-    public void Teisi()
-    {
-        _pause.SetActive(true);
-    }
-    public void start()
-    {
-        _pause.SetActive(false);
-    }
-    public void ButtonExit()
-    {
-        Application.Quit();
-        Debug.Log("a");
-    }
-    public void Timr(float time)
+
+    public void Timer(float time)
     {
         _time.text = time.ToString("f0");
     }
-    void Score(float time)
+    public void Score(int score)
     {
-        _score.text = time.ToString("f0");
-        _resultscore.text = time.ToString("f0");
+        _score.text = score.ToString();
     }
-    void ResultScoer()
+    public void ResultScore(int score)
     {
+        _resultscore.text = score.ToString();
+    }
 
+    public void ResultSetActive(bool active)
+    {
+        _resultPanel.gameObject.SetActive(active);
     }
 }

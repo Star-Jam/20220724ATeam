@@ -219,7 +219,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
             Destroy(item);
             _candyArray[(int)item.transform.position.x, (int)item.transform.position.y] = null;
             //スコア加算してくれる関数呼び出す
-            _score += 100;
+            ScoreManager.Instance.PlusScore();
+            UIManager.Instance.Score(ScoreManager.Instance.Score);
         }
         //Listを空っぽに。
         _deleteList.Clear();
