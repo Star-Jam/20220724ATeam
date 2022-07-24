@@ -50,12 +50,13 @@ public class CandyMove : MonoBehaviour
                 //自身をCandyArray配列に格納する。
                 SetCandyToArray();
             }
-            //自分が０行目（一番下）ではなく、かつ、下にキャンディがない場合、落下させる
-            else if (_row > 0 && GameManager.Instance._candyArray[_column, _row - 1] == null)
-            {
-                FallCandy();
-            }
-        }        
+
+        }
+        //自分が０行目（一番下）ではなく、かつ、下にキャンディがない場合、落下させる
+        else if (_row > 0 && GameManager.Instance._candyArray[_column, _row - 1] == null)
+        {
+            FallCandy();
+        }
     }
 
     void OnMouseDown()
@@ -69,8 +70,6 @@ public class CandyMove : MonoBehaviour
         _fingerUp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //２点のベクトルの差を計算
         _distance = _fingerUp - _fingerDown;
-
-        GameManager.Instance.ResetCoolTime();
         moveCandies();
     }
 
