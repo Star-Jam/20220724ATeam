@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class CandyMove : MonoBehaviour
 {
-    //自身の入っている配列の座標
-    public int _column;//列
-    public int _row;//行
+    public bool IsMatching => _isMatching;
 
+    //自身の入っている配列の座標
+    int _column;//列
+    int _row;//行
     //スワイプしたときの座標を確認するための変数
     Vector2 _fingerDown;
     Vector2 _fingerUp;
     Vector2 _distance;
-
-    //隣のキャンディ
+    /// <summary>隣のキャンディ</summary>
     GameObject _neighborCandy;
+    /// <summary>３つ並んでいるとき知らせる</summary>
+    bool _isMatching;  
+    /// <summary>移動前の座標</summary>
+    Vector2 _myPreviousPos;
 
-    //３つ並んでいるとき知らせる
-    public bool _isMatching;
+    public bool ChangeIsMatching(bool match) => _isMatching = match;
 
-    //移動前の座標
-    public Vector2 _myPreviousPos;
+    public Vector2 ChangeMyPreviousPos(Vector2 vector2) => _myPreviousPos = vector2;
 
     void Start()
     {
@@ -56,18 +58,19 @@ public class CandyMove : MonoBehaviour
         }        
     }
 
-    private void OnMouseDown()
+    void OnMouseDown()
     {
         _fingerDown = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
     //指を離したとき
-    private void OnMouseUp()
+    void OnMouseUp()
     {
         _fingerUp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //２点のベクトルの差を計算
         _distance = _fingerUp - _fingerDown;
 
+        GameManager.Instance.ResetCoolTime();
         moveCandies();
     }
 
@@ -131,6 +134,7 @@ public class CandyMove : MonoBehaviour
                 _row -= 1;
             }
         }
+        Invoke("DoCheckMatching", 0.5f); Invoke("DoCheckMatching", 0.5f);
     }
     //CandyArray配列に、自身を格納する。
 
@@ -145,5 +149,17 @@ public class CandyMove : MonoBehaviour
         GameManager.Instance._candyArray[_column, _row] = null;
         //自分を下に移動させる
         _row -= 1;
+    }
+
+    void DoCheckMatching()
+    {
+        GameManager.Instance.CheckMatching();
+    }
+
+    //元の位置に戻る。
+    public void BackToPreviousPos()
+    {
+        _column = (int)_myPreviousPos.x;
+        _row = (int)_myPreviousPos.y;
     }
 }
